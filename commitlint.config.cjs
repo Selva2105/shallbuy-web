@@ -1,5 +1,6 @@
 // build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
 // ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+// cd: Changes to our CD configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
 // docs: Documentation only changes
 // feat: A new feature
 // fix: A bug fix
@@ -33,6 +34,7 @@ module.exports = {
         "build",
         "chore",
         "ci",
+        "cd",
         "docs",
         "feat",
         "fix",
