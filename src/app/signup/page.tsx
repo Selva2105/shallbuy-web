@@ -34,6 +34,10 @@ import {
 } from "@/components/ui/select";
 
 const Index = () => {
+  async function test() {
+    await new Promise((resolve) => setTimeout(resolve, 900000));
+  }
+  test();
   const formSchema = z
     .object({
       firstName: z
@@ -183,17 +187,11 @@ const Index = () => {
     },
   });
 
-  const {
-    formState: { errors },
-  } = form;
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
-
-  console.log(errors);
 
   return (
     <div className="mx-auto max-w-3xl px-4 space-y-8">
