@@ -6,7 +6,7 @@ interface AuthContextType {
   user: any;
   // eslint-disable-next-line no-unused-vars
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<boolean>; // Updated to reflect that it returns a Promise<boolean>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,12 +15,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      // Optionally, validate the token with your backend and fetch user details
-      // setUser({ ...userDetails });
-    }
-
     const axiosInterceptor = axios.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("token");
@@ -54,9 +48,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
+  const logout = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/logout`,
+      );
+      if (response.data.status === "success") {
+        localStorage.removeItem("token");
+        setUser(null);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Logout failed:", error);
+      throw error;
+    }
   };
 
   return (

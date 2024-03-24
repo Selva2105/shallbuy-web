@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -26,15 +26,16 @@ import {
 } from "@/components/ui/form";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
-  async function test() {
-    await new Promise((resolve) => setTimeout(resolve, 9000));
-  }
-  test();
-  const { login } = useAuth();
-  const router = useRouter(); // Use the useRouter hook
+  const { login, user } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
+
   const [loginError, setLoginError] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // Define schema using Zod
   const formSchema = z.object({
@@ -50,24 +51,32 @@ const Index = () => {
     },
   });
 
-  const {
-    formState: { errors },
-  } = form;
-
-  console.log(errors);
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      router.push("/home");
+    }
+  }, [user, router]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoggingIn(true);
     try {
       await login(values.email, values.password);
-      router.push("/home");
-      // Redirect to home page or dashboard
+      toast({
+        title: "Successful 🎉",
+        description: "Hey, chief welcome back !",
+      });
+      setTimeout(() => {
+        router.push("/home");
+      }, 3000);
     } catch (error) {
       console.error("Login error:", error);
-      // Assuming the error is an object with a message property
       const errorMessage =
         (error as any).response?.data?.message ||
         "Login failed. Please try again.";
       setLoginError(errorMessage);
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -142,8 +151,19 @@ const Index = () => {
                   )}
                 />
                 <div className="space-y-4 w-full !mt-4">
-                  <Button className="w-full" type="submit">
-                    Login
+                  <Button
+                    className="w-full"
+                    type="submit"
+                    disabled={isLoggingIn}
+                  >
+                    {isLoggingIn ? (
+                      <>
+                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                        Logging in...
+                      </>
+                    ) : (
+                      "Login"
+                    )}
                   </Button>
                   <div className="flex items-center my-4">
                     <Separator className="my-3 !w-[45%]" />
