@@ -12,21 +12,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token && !user) {
-      // Fetch user data using the token and setUser
-      // Example: axios.get('/api/user', { headers: { Authorization: `Bearer ${token}` }})
-      // .then(response => setUser(response.data))
-      // .catch(error => console.error('Failed to fetch user data:', error));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const axiosInterceptor = axios.interceptors.request.use(
@@ -55,7 +41,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
       const { token } = response.data;
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
       setUser(response.data.user);
     } catch (error) {
       console.error("Login failed:", error);
@@ -71,7 +56,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (response.data.status === "success") {
         localStorage.removeItem("token");
         setUser(null);
-        localStorage.removeItem("user");
         return true;
       }
       return false;
