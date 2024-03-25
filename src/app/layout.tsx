@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import React from "react";
 import { AuthProvider } from "@/context";
 import { Toaster } from "@/components/ui/toaster";
-import { NavigationBar } from "@/components/component/navigation-bar";
+import { LayoutProvider } from "./layoutProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,9 +29,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <NavigationBar />
-            {children}
-            <Toaster />
+            <LayoutProvider>
+              {children}
+              <Toaster />
+            </LayoutProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

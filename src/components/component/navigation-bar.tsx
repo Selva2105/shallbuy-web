@@ -1,10 +1,69 @@
+"use client";
+
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import PillWithNumber from "../ui/pill";
+import ReusableDropdownMenu, { MenuItem } from "./shared/NavDropdown";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export function NavigationBar() {
+  const { logout, user } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    let result = await logout();
+
+    if (result) {
+      router.push("/login");
+    }
+  };
+
+  const menuItems: MenuItem[] = [
+    {
+      type: "header",
+      label: "My Account",
+      headers: {
+        email: user?.email,
+        role: user?.role,
+        userName: user?.userName.toUpperCase(),
+      },
+    },
+    { type: "separator" },
+    {
+      type: "group",
+      items: ["Profile", "Billing", "Settings", "Keyboard shortcuts"],
+    },
+    { type: "separator" },
+    {
+      type: "sub",
+      label: "Support",
+      items: ["Contact sales", "Chat"],
+    },
+    { type: "separator" },
+    { type: "D_Button", label: "Log out", onClick: handleLogout },
+  ];
+
+  const menuItems2: MenuItem[] = [
+    {
+      type: "button",
+      label: "Login",
+      onClick() {
+        router.push("/login");
+      },
+    },
+    {
+      type: "button",
+      label: "Signup",
+      onClick() {
+        router.push("/signup");
+      },
+      variant: "outline",
+    },
+  ];
+
   return (
     <nav className="flex items-center h-16 px-4 border-b bg-gray-100 dark:bg-gray-800">
       <div className="flex items-center gap-2 text-lg font-semibold">
@@ -42,10 +101,16 @@ export function NavigationBar() {
           <BellIcon className="h-4 w-4" />
           <span className="sr-only">Notifications</span>
         </Button>
-        <Button size="sm" variant="outline">
-          <UserIcon className="h-4 w-4" />
-          <span className="sr-only">Profile</span>
-        </Button>
+        <ReusableDropdownMenu
+          triggerContent={
+            <Button size="sm" variant="outline">
+              <UserIcon className="h-4 w-4" />
+              <span className="sr-only">Profile</span>
+            </Button>
+          }
+          menuItems={user ? menuItems : menuItems2}
+        />
+
         <div className="flex items-center gap-2">
           <Button className="w-8 h-8" size="icon" variant="ghost">
             <HeartIcon className="icon-sm" />
