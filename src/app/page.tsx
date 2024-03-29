@@ -1,7 +1,6 @@
 import Banner from "@/components/component/Banner";
 import Link from "next/link";
 import React from "react";
-import { HomeCarousel } from "./home/page";
 
 const Home = () => {
   return (
@@ -19,9 +18,7 @@ const Home = () => {
           </span>
         }
       />
-      <div className="px-[3.25rem] py-8">
-        <HomeCarousel />
-      </div>
+      <div className="px-[3.25rem] py-8"></div>
     </div>
   );
 };
