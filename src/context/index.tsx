@@ -6,7 +6,7 @@ interface AuthContextType {
   user: any;
   // eslint-disable-next-line no-unused-vars
   login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<boolean>; // Updated to reflect that it returns a Promise<boolean>
+  logout: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

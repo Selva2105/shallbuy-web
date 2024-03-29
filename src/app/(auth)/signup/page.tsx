@@ -25,13 +25,6 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const Index = () => {
   async function test() {
@@ -110,48 +103,6 @@ const Index = () => {
       dob: z.date({
         required_error: "A date of birth is required.",
       }),
-      country: z
-        .string({
-          required_error: "Country name is required",
-        })
-        .min(1, {
-          message: "Country name is required",
-        }),
-      state: z
-        .string({
-          required_error: "State is required",
-        })
-        .min(1, {
-          message: "State is required",
-        }),
-      district: z
-        .string({
-          required_error: "District is required",
-        })
-        .min(1, {
-          message: "District is required",
-        }),
-      city: z
-        .string({
-          required_error: "City is required",
-        })
-        .min(1, {
-          message: "City is required",
-        }),
-      street: z
-        .string({
-          required_error: "Street is required",
-        })
-        .min(1, {
-          message: "Street is required",
-        }),
-      pincode: z
-        .string({
-          required_error: "Pincode is required",
-        })
-        .min(1, {
-          message: "Pincode is required",
-        }),
       terms: z
         .boolean({
           required_error: "Accept the agreement policy",
@@ -177,12 +128,6 @@ const Index = () => {
       password: "",
       confirmPassword: "",
       phone: "",
-      country: "",
-      state: "",
-      district: "",
-      city: "",
-      street: "",
-      pincode: "",
       terms: false,
     },
   });
@@ -315,8 +260,6 @@ const Index = () => {
                 )}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4 py-4">
             <div className="space-y-2">
               <FormField
                 control={form.control}
@@ -342,26 +285,25 @@ const Index = () => {
                 name="dob"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Date of birth</FormLabel>
+                    <FormLabel className="mt-2">Date of birth</FormLabel>
                     <FormControl>
                       <Popover>
                         <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-[240px] pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "text-left font-normal",
+                              !field.value && "text-muted-foreground",
+                            )}
+                            size={"default"}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
@@ -375,128 +317,6 @@ const Index = () => {
                           />
                         </PopoverContent>
                       </Popover>
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4 py-4">
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select country" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="m@example.com">
-                          m@example.com
-                        </SelectItem>
-                        <SelectItem value="m@google.com">
-                          m@google.com
-                        </SelectItem>
-                        <SelectItem value="m@support.com">
-                          m@support.com
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>State</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter state" id="state" {...field} />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="district"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>District</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter district"
-                        id="district"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter city" id="city" {...field} />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="street"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Street</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter street"
-                        id="street"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="pincode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Pincode</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter pincode"
-                        id="pincode"
-                        {...field}
-                      />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>

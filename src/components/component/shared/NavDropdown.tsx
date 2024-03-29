@@ -66,22 +66,26 @@ const ReusableDropdownMenu = ({
               <DropdownMenuLabel>{menuItem.label}</DropdownMenuLabel>
             )}
             {menuItem.type === "D_Button" && (
-              <Button
-                onClick={menuItem.onClick}
-                className="justify-start w-full my-1"
-                variant="destructive"
-              >
-                {menuItem.label}
-              </Button>
+              <DropdownMenuItem>
+                <Button
+                  onClick={menuItem.onClick}
+                  className="justify-start w-full my-1"
+                  variant="destructive"
+                >
+                  {menuItem.label}
+                </Button>
+              </DropdownMenuItem>
             )}
             {menuItem.type === "button" && (
-              <Button
-                onClick={menuItem.onClick}
-                className="w-full my-1"
-                variant={menuItem.variant}
-              >
-                {menuItem.label}
-              </Button>
+              <DropdownMenuItem>
+                <Button
+                  onClick={menuItem.onClick}
+                  className="w-full my-1"
+                  variant={menuItem.variant}
+                >
+                  {menuItem.label}
+                </Button>
+              </DropdownMenuItem>
             )}
             {menuItem.type === "separator" && <DropdownMenuSeparator />}
             {menuItem.type === "group" && (

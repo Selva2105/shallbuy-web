@@ -46,7 +46,7 @@ module.exports = {
         "translation",
         "security",
         "changeset",
-        "bck"
+        "bck",
       ],
     ],
   },
