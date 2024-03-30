@@ -1,43 +1,36 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import type { FC } from "react";
+"use client";
 
-const NotFoundPage: FC = function () {
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+
+export default function NotFound() {
+  const router = useRouter();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-6">
-      <img alt="" src="/images/illustrations/404.svg" className="lg:max-w-md" />
-      <h1 className="mb-6 text-2xl font-bold dark:text-white md:text-5xl">
-        Page not found
-      </h1>
-      <p className="mb-6 w-4/5 max-w-xl text-center text-lg text-gray-500 dark:text-gray-300">
-        Oops! Looks like you followed a bad link. If you think this is a problem
-        with us, please tell us.
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mb-16 items-center justify-center text-center">
+      <span className="bg-gradient-to-b from-foreground to-transparent bg-clip-text text-[10rem] font-extrabold leading-none text-transparent">
+        404
+      </span>
+      <h2 className="my-2 font-heading text-2xl font-bold">
+        Something&apos;s missing
+      </h2>
+      <p>
+        Sorry, the page you are looking for doesn&apos;t exist or has been
+        moved.
       </p>
-      <Button asChild>
-        <Link href={"/home"}>
-          <div className="mr-1 flex items-center gap-x-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width={24}
-              height={24}
-              color={"#ffffff"}
-              fill={"none"}
-            >
-              <path
-                d="M15 6C15 6 9.00001 10.4189 9 12C8.99999 13.5812 15 18 15 18"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Go back home
-          </div>
-        </Link>
-      </Button>
+      <div className="mt-8 flex justify-center gap-2">
+        <Button onClick={() => router.back()} variant="default" size="lg">
+          Go back
+        </Button>
+        <Button
+          onClick={() => router.push("/dashboard")}
+          variant="ghost"
+          size="lg"
+        >
+          Back to Home
+        </Button>
+      </div>
     </div>
   );
-};
-
-export default NotFoundPage;
+}

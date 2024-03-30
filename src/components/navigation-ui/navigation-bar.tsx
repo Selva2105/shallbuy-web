@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import PillWithNumber from "../ui/pill";
-import ReusableDropdownMenu, { MenuItem } from "./shared/NavDropdown";
+import ReusableDropdownMenu, { MenuItem } from "./NavDropdown";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
@@ -84,16 +84,16 @@ export function NavigationBar() {
           </div>
         </form>
         <Link
-          className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
+          className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
           href="#"
         >
-          Link 1
+          Home
         </Link>
         <Link
-          className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
+          className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50"
           href="#"
         >
-          Link 2
+          Products
         </Link>
       </div>
       <div className="flex items-center gap-4 ml-auto">
