@@ -7,7 +7,6 @@ export interface UserFormData {
   dob: Date;
   country: string;
   state: string;
-  district: string;
   city: string;
   street: string;
   pincode: string;

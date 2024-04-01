@@ -61,14 +61,16 @@ const Index = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoggingIn(true);
     try {
-      await login(values.email, values.password);
-      toast({
-        title: "Successful 🎉",
-        description: "Hey, chief welcome back !",
-      });
-      setTimeout(() => {
-        router.push("/home");
-      }, 3000);
+      let result = await login(values.email, values.password);
+      if (result) {
+        toast({
+          title: "Successful 🎉",
+          description: "Hey, chief welcome back !",
+        });
+        setTimeout(() => {
+          router.push("/home");
+        }, 3000);
+      }
     } catch (error) {
       console.error("Login error:", error);
       const errorMessage =
