@@ -28,7 +28,7 @@ export function NavigationBar() {
       headers: {
         email: user?.email,
         role: user?.role,
-        userName: user?.userName.toUpperCase(),
+        username: user?.username.toUpperCase(),
       },
     },
     { type: "separator" },

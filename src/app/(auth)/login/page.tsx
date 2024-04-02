@@ -54,7 +54,7 @@ const Index = () => {
   // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
-      router.push("/home");
+      router.push("/");
     }
   }, [user, router]);
 
@@ -68,7 +68,7 @@ const Index = () => {
           description: "Hey, chief welcome back !",
         });
         setTimeout(() => {
-          router.push("/home");
+          router.push("/");
         }, 3000);
       }
     } catch (error) {

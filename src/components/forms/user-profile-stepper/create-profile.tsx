@@ -47,6 +47,7 @@ export const CreateProfileOne = () => {
   const [selectedState, setSelectedState] = useState<string | undefined>("");
   const [city, setCity] = useState([]);
   const [finished, setFinished] = useState(false);
+  const [timerCount, setTimerCount] = useState(8);
 
   //Hooks
   const { signup } = useAuth();
@@ -63,6 +64,18 @@ export const CreateProfileOne = () => {
 
     fetchCountries();
   }, [selectedState]);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (finished) {
+      timer = setTimeout(() => {
+        setTimerCount((prevCount) => prevCount - 1);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [finished]);
 
   // Default form values
   const defaultValues = {
@@ -527,6 +540,9 @@ export const CreateProfileOne = () => {
                 {finished ? (
                   <>
                     <h1>Completed</h1>
+                    <div className="text-center mt-y">
+                      <p>Redirecting in {timerCount} seconds...</p>
+                    </div>
                     <span>
                       <Link
                         href={"/home"}
