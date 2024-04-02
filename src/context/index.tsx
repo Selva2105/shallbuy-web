@@ -15,14 +15,17 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   useEffect(() => {
     const axiosInterceptor = axios.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem("token");
         if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+          config.headers.authorization = `Bearer ${token}`;
         }
         return config;
       },
@@ -42,9 +45,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         email,
         password,
       });
-      const { token } = response.data;
+      const { token, user } = response.data;
       localStorage.setItem("token", token);
-      setUser(response.data.user);
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
       return true;
     } catch (error) {
       console.error("Login failed:", error);
@@ -60,6 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
       const { token, user } = response.data;
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
       return true;
     } catch (error) {
@@ -70,11 +75,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/v1/auth/logout`,
-      );
+      const response = await axios.post(`${getApiUrl()}/v1/auth/logout`);
       if (response.data.status === "success") {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setUser(null);
         return true;
       }

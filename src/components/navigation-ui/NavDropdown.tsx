@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export interface HeadersOption {
-  userName?: string;
+  username?: string;
   role?: string;
   email: string;
 }
@@ -53,8 +53,8 @@ const ReusableDropdownMenu = ({
           <React.Fragment key={index}>
             {menuItem.type === "header" && (
               <div className="p-2">
-                <div className="font-semibold">
-                  {menuItem.headers?.userName}
+                <div className="font-semibold truncate">
+                  {menuItem.headers?.username}
                 </div>
                 <div className="text-gray-500 font-font-medium">
                   {menuItem.headers?.role}
