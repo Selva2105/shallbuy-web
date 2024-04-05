@@ -12,6 +12,7 @@ export const getCityList = async (state: string | undefined) => {
       `https://api.countrystatecity.in/v1/countries/IN/states/${state}/cities`,
       config,
     );
+    console.log(process.env.NEXT_PUBLIC_COUNTRY_API_KEY);
     return response.data;
   } catch (error) {
     console.error("Failed to fetch countries", error);
