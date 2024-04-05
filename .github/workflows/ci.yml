@@ -17,13 +17,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3 # Updated to v3
         with:
           fetch-depth: 0 # Fetch all history for all branches and tags
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3 # Updated to v3
         with:
-          node-version: '20.10.0'
+          node-version: '20.10.0' # Node version is already 20.10.0, which is correct
 
       - name: Install dependencies
         run: npm install
@@ -34,7 +34,6 @@ jobs:
       - name: Run format check
         run: npm run format
 
-      - uses: actions/checkout@v3
       - uses: wagoid/commitlint-github-action@v5
         with:
           configFile: commitlint.config.cjs
