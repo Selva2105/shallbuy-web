@@ -1,6 +1,6 @@
+import Footer from "@/components/footer/footer";
 import React from "react";
 
-import Footer from "@/components/footer/Footer";
 const Home = () => {
   return (
     <div>
