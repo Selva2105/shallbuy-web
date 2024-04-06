@@ -1,3 +1,4 @@
+import Link from "next/link";
 import * as React from "react";
 
 interface FooterLinkProps {
@@ -7,12 +8,12 @@ interface FooterLinkProps {
 
 const FooterLink: React.FC<FooterLinkProps> = ({ label, links }) => {
   return (
-    <div className="flex flex-col text-sm text-black">
+    <div className="flex flex-col text-sm text-black space-y-4">
       <div className="text-base font-semibold">{label}</div>
-      {links.map((link, index) => (
+      {links.map((link) => (
         <div
           key={link}
-          className={`mt-${index === 0 ? 10 : 5} ${label === "Use Cases" ? "max-md:mr-1.5" : ""} text-sm font-medium`}
+          className={` ${label === "Use Cases" ? "max-md:mr-1.5" : ""} text-sm font-normal`}
         >
           {link}
         </div>
@@ -53,7 +54,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="flex flex-col items-center px-20 pt-14 pb-3 bg-white max-md:px-5">
+    <footer className="flex flex-col items-center p-4 bg-white max-md:px-5">
       <div className="flex gap-5 justify-between items-start w-full max-w-[1154px] max-md:flex-wrap max-md:max-w-full">
         {footerLinks.map((footerLink) => (
           <FooterLink
@@ -69,9 +70,9 @@ const Footer: React.FC = () => {
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/5ec737b3fc649fdbc8500891631269237558ebbf7dee6866e5dd2dfbed176868?apiKey=a95dbe82fd5c4d85bf1124a63df54257&"
               alt="Location icon"
-              className="shrink-0 self-start w-6 aspect-square"
+              className="shrink-0 self-start w-5 aspect-square"
             />
-            <div>
+            <div className="text-sm">
               Wisconsin Ave, Suite 700 <br /> Chevy Chase, Maryland 20815
             </div>
           </div>
@@ -80,14 +81,14 @@ const Footer: React.FC = () => {
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/4a2dd27db5dfb7eb5601f660573664e24fc88066bd0e8dff8c4e6c7f7ae57e8c?apiKey=a95dbe82fd5c4d85bf1124a63df54257&"
               alt="Email icon"
-              className="shrink-0 w-6 aspect-square"
+              className="shrink-0 w-5 aspect-square"
             />
-            <div className="flex-auto my-auto">support@figma.com</div>
+            <div className="text-sm flex-auto my-auto">support@figma.com</div>
           </div>
           <div className="mt-5 text-base font-semibold text-black">
             Follow us
           </div>
-          <div className="flex gap-4 mt-5">
+          <div className="flex gap-4 mt-5 hover:cursor-pointer">
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/3ec9d91dc772780283f93e43c9ae36837f06710f99f4cf258c5a84b5212d7488?apiKey=a95dbe82fd5c4d85bf1124a63df54257&"
@@ -127,16 +128,26 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="shrink-0 self-end mt-7 max-w-full h-px bg-gray-200 border border border-solid w-[1206px] max-md:mr-2" />
-      <div className="flex gap-5 justify-between mt-8 text-sm text-black max-md:flex-wrap">
-        <div>Privacy Policy</div>
-        <div>Terms of Use</div>
-        <div>Sales and Refunds</div>
-        <div>Legal</div>
-        <div>Site Map</div>
+      <div className="shrink-0 self-end mt-7 max-w-full h-px bg-gray-200 border border-solid w-[1206px] max-md:mr-2" />
+      <div className="flex gap-5 justify-between mt-8 text-sm text-black max-md:flex-wrap hover:cursor-pointer">
+        <Link href={"#"} className="hover:underline underline-offset-2">
+          Privacy Policy
+        </Link>
+        <Link href={"#"} className="hover:underline underline-offset-2">
+          Terms of Use
+        </Link>
+        <Link href={"#"} className="hover:underline underline-offset-2">
+          Sales and Refunds
+        </Link>
+        <Link href={"#"} className="hover:underline underline-offset-2">
+          Legal
+        </Link>
+        <Link href={"#"} className="hover:underline underline-offset-2">
+          Site Map
+        </Link>
       </div>
       <div className="mt-8 text-xs font-light text-black">
-        © 2021 All Rights Reserved
+        © 2024 All Rights Reserved
       </div>
     </footer>
   );

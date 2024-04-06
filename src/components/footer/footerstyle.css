@@ -1,5 +1,0 @@
-.footer {
-  position: fixed; /* or use 'position: absolute;' if you want it relative to its nearest positioned ancestor */
-  bottom: 0;
-  width: 100%;
-}
