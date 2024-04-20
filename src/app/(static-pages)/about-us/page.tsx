@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { jobListings, teamMembers, valuesList } from "@/constants/data";
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import peopleImage from "../../../../public/images/teams/Image.svg";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -23,66 +22,65 @@ const page = () => {
         </div>
       </div>
 
-      <div className="flex justify-center items-center self-stretch px-20 py-8 bg-gray-50 max-md:px-5">
-        <div className="px-8 mt-4 w-full max-w-screen-xl max-md:px-5 max-md:max-w-full">
-          <div className="flex max-md:flex-col">
-            <Image
+      <div className="flex justify-center items-center self-stretch md:px-10 md:py-4 lg:px-20 lg:py-8 bg-gray-50 max-md:px-5">
+        <div className="lg:px-8 lg:mt-4 w-full max-w-screen-xl max-md:px-5 max-md:max-w-full">
+          <div className="flex max-md:flex-col justify-between md:gap-5 lg:gap-0">
+            <img
               loading="lazy"
               src="/images/about-1.webp"
               alt=""
-              width={600}
-              height={600}
+              className="md:w-[385px] md:h-[285px] lg:w-[560px] lg:h-[435px]"
             />
             <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full ">
-              <div className="flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full py-9 pr-8 ml-24 ">
-                <div className="text-sm font-semibold leading-6 text-violet-700 max-md:max-w-full">
+              <div className="flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full lg:py-9 lg:pr-8">
+                <div className="text-xs lg:text-sm font-semibold lg:leading-6 text-violet-700 max-md:max-w-full">
                   We’ve helped hundreds of companies
                 </div>
-                <div className="mt-3 text-5xl font-semibold tracking-tighter text-gray-900 leading-[60px] max-md:max-w-full max-md:text-4xl max-md:leading-[56px]">
+                <div className="mt-3 text-lg lg:text-5xl font-semibold tracking-tighter text-gray-900 lg:leading-[60px] max-md:max-w-full max-md:text-4xl max-md:leading-[56px]">
                   We’re only just getting started on our journey
                 </div>
-                <div className="mt-12 max-md:mt-10 max-md:max-w-full">
+                <div className="mt-2 max-md:mt-10 md:max-w-full">
                   <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                     <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                       <div className="flex flex-col grow self-stretch max-md:mt-8">
-                        <div className="text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
+                        <div className="text-lg lg:text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
                           400+
                         </div>
-                        <div className="mt-2 text-sm font-medium leading-7 text-gray-900">
+                        <div className="mt-2 text-xs lg:text-sm font-medium leading-7 text-gray-900">
                           Orders completed
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
                       <div className="flex flex-col grow self-stretch max-md:mt-8">
-                        <div className="text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
+                        <div className="text-lg lg:text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
                           600%
                         </div>
-                        <div className="mt-2 text-sm font-medium leading-7 text-gray-900">
+                        <div className="mt-2 text-xs lg:text-sm font-medium lg:leading-7 text-gray-900">
                           Return on investment
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="mt-12 max-md:mt-10 max-md:max-w-full">
+                <div className="mt-12 max-md:mt-10 md:max-w-full">
                   <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                     <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                       <div className="flex flex-col grow self-stretch max-md:mt-8">
-                        <div className="text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
+                        <div className="text-lg lg:text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
                           10k
                         </div>
-                        <div className="mt-2 text-sm font-medium leading-7 text-gray-900">
+                        <div className="mt-2 text-xs lg:text-sm font-medium leading-7 text-gray-900">
                           Global users
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
                       <div className="flex flex-col grow self-stretch max-md:mt-8">
-                        <div className="text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
+                        <div className="text-lg lg:text-4xl font-semibold tracking-tighter text-violet-500 leading-[22px] max-md:text-4xl">
                           200+
                         </div>
-                        <div className="mt-2 text-sm font-medium leading-7 text-gray-900">
+                        <div className="mt-2 text-xs lg:text-sm font-medium leading-7 text-gray-900">
                           5-star reviews
                         </div>
                       </div>
@@ -120,10 +118,10 @@ const page = () => {
         </div>
 
         <div className="max-md:max-w-full px-20 pb-8 ">
-          <div className="flex gap-5 max-md:flex-col max-md:gap-0 justify-center items-center">
+          <div className="flex gap-5 max-md:flex-col max-md:gap-0 justify-between lg:justify-center items-center">
             {teamMembers.map((data, index) => (
               <div
-                className="flex flex-col mx-2.5 w-3/12 max-md:ml-0 max-md:w-full"
+                className="flex flex-col mx-2.5 md:w-2/4 lg:w-3/12 max-md:ml-0 max-md:w-full"
                 key={index}
               >
                 <div className="flex flex-col grow self-stretch p-6 mx-auto w-full bg-gray-50 max-md:px-5 max-md:mt-8">
@@ -229,7 +227,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center px-20 py-8 my-4 w-full max-md:max-w-full">
+      <div className="flex flex-col items-center px-5 py-2 md:px-20 md:py-8 my-4 w-full max-md:max-w-full">
         <div className="justify-center px-3 py-1 text-sm font-medium leading-5 text-center text-violet-700 bg-purple-50 rounded-2xl">
           Open positions
         </div>
@@ -242,12 +240,15 @@ const page = () => {
         <img
           loading="lazy"
           src={peopleImage.src}
-          className="self-center mt-16 w-[1216px] h-[400px] aspect-[3.03] max-md:mt-10"
+          className="self-center mt-12 w-[1216px] md:h-[200px] lg:h-[400px] aspect-[3.03]"
           alt="people"
         />
 
         {jobListings.map((category, index) => (
-          <div className="mt-8 text-gray-900 max-md:mt-10 w-[60%]" key={index}>
+          <div
+            className="mt-8 text-gray-900 max-md:mt-10 sm:w-full md:w-[90%] lg:w-[60%]"
+            key={index}
+          >
             <div className="w-full text-xl font-semibold text-gray-900 max-md:max-w-full">
               {category.category}
             </div>
@@ -296,10 +297,10 @@ const page = () => {
         <div className="flex flex-col px-8 max-md:px-5 max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-wrap">
             <div className="flex flex-col flex-1 max-md:max-w-full">
-              <div className="text-3xl font-semibold leading-10 text-gray-900 max-md:max-w-full">
+              <div className="text-xl lg:text-3xl font-semibold leading-10 text-gray-900 max-md:max-w-full">
                 Start your 30-day free trial
               </div>
-              <div className="mt-4 text-xl leading-8 text-slate-600 max-md:max-w-full">
+              <div className="mt-4 text-base lg:text-xl leading-8 text-slate-600 max-md:max-w-full">
                 Join over 400+ users already enjoying the power of permium.
               </div>
             </div>
