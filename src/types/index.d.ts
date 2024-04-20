@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
 export interface NavItem {
@@ -49,4 +50,32 @@ export interface User {
   updatedAt: string;
   createdAt: string;
   twoFactorEnabled: boolean;
+}
+export interface TeamMember {
+  profile: StaticImageData;
+  name: string;
+  role: string;
+  bio: string;
+  github: string;
+  linkedin: string;
+}
+
+export type TeamList = TeamMember[];
+
+export interface ValueItem {
+  icon: StaticImageData;
+  title: string;
+  description: string;
+}
+
+export type ValuesList = ValueItem[];
+
+export interface JobListing {
+  category: string;
+  positions: Array<{
+    title: string;
+    description: string;
+    type: string;
+    salaryRange: string;
+  }>;
 }
