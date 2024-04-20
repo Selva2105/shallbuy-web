@@ -6,6 +6,7 @@ import React from "react";
 import { AuthProvider } from "@/context";
 import { Toaster } from "@/components/ui/toaster";
 import { LayoutProvider } from "./layoutProvider";
+import ReduxProvider from "@/redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,12 +29,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>
-            <LayoutProvider>
-              {children}
-              <Toaster />
-            </LayoutProvider>
-          </AuthProvider>
+          <ReduxProvider>
+            <AuthProvider>
+              <LayoutProvider>
+                <main>{children}</main>
+                <Toaster />
+              </LayoutProvider>
+            </AuthProvider>
+          </ReduxProvider>
         </ThemeProvider>
       </body>
     </html>

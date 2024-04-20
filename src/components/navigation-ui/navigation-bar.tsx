@@ -26,7 +26,7 @@ export function NavigationBar() {
       type: "header",
       label: "My Account",
       headers: {
-        email: user?.email,
+        email: user?.email || "",
         role: user?.role,
         username: user?.username.toUpperCase(),
       },
@@ -34,13 +34,19 @@ export function NavigationBar() {
     { type: "separator" },
     {
       type: "group",
-      items: ["Profile", "Billing", "Settings", "Keyboard shortcuts"],
+      items: [
+        { label: "Profile", link: "/profile" },
+        { label: "Settings", link: "/settings" },
+      ],
     },
     { type: "separator" },
     {
       type: "sub",
       label: "Support",
-      items: ["Contact sales", "Chat"],
+      items: [
+        { label: "Contact sales", link: "/contact-sales" },
+        { label: "Chat", link: "/chat" },
+      ],
     },
     { type: "separator" },
     { type: "D_Button", label: "Log out", onClick: handleLogout },
@@ -53,14 +59,6 @@ export function NavigationBar() {
       onClick() {
         router.push("/login");
       },
-    },
-    {
-      type: "button",
-      label: "Signup",
-      onClick() {
-        router.push("/signup");
-      },
-      variant: "outline",
     },
   ];
 
