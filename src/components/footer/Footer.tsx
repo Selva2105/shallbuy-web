@@ -3,20 +3,21 @@ import * as React from "react";
 
 interface FooterLinkProps {
   label: string;
-  links: string[];
+  links: { label: string; href: string }[];
 }
 
 const FooterLink: React.FC<FooterLinkProps> = ({ label, links }) => {
   return (
     <div className="flex flex-col text-sm text-black space-y-4">
       <div className="text-base font-semibold">{label}</div>
-      {links.map((link) => (
-        <div
-          key={link}
+      {links.map((linkItem) => (
+        <Link
+          key={linkItem.href}
+          href={linkItem.href}
           className={` ${label === "Use Cases" ? "max-md:mr-1.5" : ""} text-sm font-normal`}
         >
-          {link}
-        </div>
+          {linkItem.label}
+        </Link>
       ))}
     </div>
   );
@@ -27,29 +28,42 @@ const Footer: React.FC = () => {
     {
       label: "Product",
       links: [
-        "Landing Page",
-        "Popup Builder",
-        "Web-design",
-        "Content",
-        "Integrations",
+        { label: "Landing Page", href: "landing-page" },
+        { label: "Popup Builder", href: "popup-builder" },
+        { label: "Web-design", href: "web-design" },
+        { label: "Content", href: "content" },
+        { label: "Integrations", href: "integrations" },
       ],
     },
     {
       label: "Use Cases",
       links: [
-        "Web-designers",
-        "Marketers",
-        "Small Business",
-        "Website Builder",
+        { label: "Web-designers", href: "web-designers" },
+        { label: "Marketers", href: "marketers" },
+        { label: "Small Business", href: "small-business" },
+        { label: "Website Builder", href: "website-builder" },
       ],
     },
     {
       label: "Resources",
-      links: ["Academy", "Blog", "Themes", "Hosting", "Developers", "Support"],
+      links: [
+        { label: "Academy", href: "academy" },
+        { label: "Blog", href: "blog" },
+        { label: "Themes", href: "themes" },
+        { label: "Hosting", href: "hosting" },
+        { label: "Developers", href: "developers" },
+        { label: "Support", href: "support" },
+      ],
     },
     {
       label: "Company",
-      links: ["About Us", "Careers", "FAQs", "Teams", "Contact Us"],
+      links: [
+        { label: "About Us", href: "about-us" },
+        { label: "Careers", href: "careers" },
+        { label: "FAQs", href: "faqs" },
+        { label: "Teams", href: "teams" },
+        { label: "Contact Us", href: "contact-us" },
+      ],
     },
   ];
 

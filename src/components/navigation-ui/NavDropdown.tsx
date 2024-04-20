@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export interface HeadersOption {
   username?: string;
@@ -30,7 +31,7 @@ export interface MenuItem {
     | "D_Button"
     | "button";
   label?: string;
-  items?: string[];
+  items?: Array<{ label: string; link: string }>;
   headers?: HeadersOption;
   onClick?: () => void;
   variant?: "secondary" | "destructive" | "outline" | "ghost" | "link";
@@ -91,9 +92,15 @@ const ReusableDropdownMenu = ({
             {menuItem.type === "group" && (
               <DropdownMenuGroup>
                 {menuItem.items?.map((item, idx) => (
-                  <DropdownMenuItem key={idx} className="cursor-pointer">
-                    {item}
-                  </DropdownMenuItem>
+                  <Link
+                    href={item.link}
+                    className="block w-full cursor-pointer"
+                    key={idx}
+                  >
+                    <DropdownMenuItem className="cursor-pointer">
+                      {item.label}
+                    </DropdownMenuItem>
+                  </Link>
                 ))}
               </DropdownMenuGroup>
             )}
@@ -105,9 +112,15 @@ const ReusableDropdownMenu = ({
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent>
                     {menuItem.items?.map((item, idx) => (
-                      <DropdownMenuItem key={idx} className="cursor-pointer">
-                        {item}
-                      </DropdownMenuItem>
+                      <Link
+                        href={item.link}
+                        className="block w-full cursor-pointer"
+                        key={idx}
+                      >
+                        <DropdownMenuItem className="cursor-pointer">
+                          {item.label}
+                        </DropdownMenuItem>
+                      </Link>
                     ))}
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>

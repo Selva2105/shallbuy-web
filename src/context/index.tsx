@@ -1,21 +1,42 @@
 /* eslint-disable no-unused-vars */
 "use client";
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { getApiUrl } from "@/lib/getApiurl";
 import { ProfileFormValues } from "@/lib/form-schema";
+import { User } from "@/types";
+import { ChangePasswordFormValues } from "@/components/forms/settings-security/change_password_form";
+import { NotificationFormValues } from "@/components/forms/settings-security/two-factor-form";
+
+export interface ApiResponse {
+  success?: boolean;
+  message?: string;
+}
+
+interface ErrorResponse {
+  message?: string;
+}
 
 interface AuthContextType {
-  user: any;
+  user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => Promise<boolean>;
   signup: (profileData: ProfileFormValues) => Promise<boolean>;
+  changePasswordApi: (
+    id: string | undefined,
+    data: ChangePasswordFormValues,
+  ) => Promise<ApiResponse | undefined>;
+  changeNotificationApi: (
+    id: string | undefined,
+    data: NotificationFormValues,
+  ) => Promise<boolean>;
+  validateSession: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState(() => {
+  const [user, setUser] = useState<User | null>(() => {
     if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem("user");
       return storedUser ? JSON.parse(storedUser) : null;
@@ -92,8 +113,76 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const validateSession = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      // Here, you would typically send a request to your backend to validate the token
+      // For simplicity, let's assume a direct client-side check
+      if (token) {
+        // Simulate token validation logic
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Session validation failed:", error);
+      return false;
+    }
+  };
+
+  const changePasswordApi = async (
+    id: string | undefined,
+    data: ChangePasswordFormValues,
+  ) => {
+    try {
+      let response = await axios.put(
+        `${getApiUrl()}/v1/auth/user/updatePassword/${id}`,
+        data,
+      );
+      if (response.data.status === "success") return { success: true };
+    } catch (error) {
+      const axiosError = error as AxiosError; // Cast error to AxiosError
+      const errorMessage: ErrorResponse = axiosError.response
+        ?.data as ErrorResponse;
+      console.error(axiosError);
+      return {
+        success: false,
+        message: errorMessage.message || "An error occurred",
+      };
+    }
+  };
+
+  const changeNotificationApi = async (
+    id: string | undefined,
+    data: NotificationFormValues,
+  ) => {
+    try {
+      let response = await axios.put(
+        `${getApiUrl()}/v1/auth/user/updateNotification/${id}`,
+        data,
+      );
+      if (response.data.status === "success") {
+        const { user } = response.data;
+        localStorage.setItem("user", JSON.stringify(user));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, signup }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        signup,
+        validateSession,
+        changePasswordApi,
+        changeNotificationApi,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
