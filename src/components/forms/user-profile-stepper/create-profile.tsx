@@ -108,7 +108,6 @@ export const CreateProfileOne = () => {
   });
 
   const processForm: SubmitHandler<ProfileFormValues> = async (data) => {
-    console.log("data ==>", data);
     // api call and reset
     const result = await signup(data);
     if (result) {
@@ -562,10 +561,6 @@ export const CreateProfileOne = () => {
               </div>
             )}
           </div>
-
-          {/* <Button  className="ml-auto" type="submit">
-            {action}
-          </Button> */}
         </form>
       </Form>
       {/* Navigation */}
