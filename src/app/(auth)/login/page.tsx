@@ -39,8 +39,29 @@ const Index = () => {
 
   // Define schema using Zod
   const formSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(1, "Password field cannot be empty"),
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .email("Invalid email address"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .refine(
+        (password) => /[A-Z]/.test(password),
+        "Password must contain at least 1 uppercase letter",
+      )
+      .refine(
+        (password) => /[a-z]/.test(password),
+        "Password must contain at least 1 lowercase letter",
+      )
+      .refine(
+        (password) => /\d/.test(password),
+        "Password must contain at least 1 number",
+      )
+      .refine(
+        (password) => /[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>/?]/.test(password),
+        "Password must contain at least 1 special character",
+      ),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
