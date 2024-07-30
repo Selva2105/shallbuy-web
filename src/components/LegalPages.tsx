@@ -22,7 +22,7 @@ const LegalPages: React.FC<LegalPageProps> = ({
         </div>
       </section>
       <section className="w-full py-4 md:py-6 lg:py-10">
-        <div className="container space-y-12 px-4 md:px-6">
+        <div className="container space-y-12">
           <div className="grid mx-auto gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
             {sections.map((section, index) => (
               <div key={index} className="grid gap-2">
