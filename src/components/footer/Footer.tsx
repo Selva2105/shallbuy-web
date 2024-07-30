@@ -110,11 +110,11 @@ const Footer: React.FC = () => {
             Privacy Policy
           </Link>
           <Link
-            href="/terms-of-service"
+            href="/terms-and-conditions"
             className="text-sm hover:underline"
             prefetch={false}
           >
-            Terms of Service
+            Terms and Conditions
           </Link>
         </div>
       </div>
