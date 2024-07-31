@@ -1,5 +1,6 @@
+import { LucideIcon } from "lucide-react";
 import { StaticImageData } from "next/image";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export interface NavItem {
   title: string;
@@ -78,4 +79,22 @@ export interface JobListing {
     type: string;
     salaryRange: string;
   }>;
+}
+
+export interface Section {
+  icon: LucideIcon;
+  title: string;
+  content: React.ReactNode;
+}
+
+export interface AdditionalContent {
+  title: string;
+  content: React.ReactNode;
+}
+
+export interface LegalPageProps {
+  title: string;
+  subtitle: string;
+  sections: Section[];
+  additionalContent: AdditionalContent[];
 }

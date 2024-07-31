@@ -137,7 +137,7 @@ const Index = () => {
                           </Label>
                           <Link
                             className="ml-auto inline-block text-xs underline text-gray-700"
-                            href="#"
+                            href="/forget-password"
                           >
                             Forgot your password?
                           </Link>

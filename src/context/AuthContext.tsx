@@ -31,6 +31,13 @@ interface AuthContextType {
     data: NotificationFormValues,
   ) => Promise<boolean>;
   validateSession: () => Promise<boolean>;
+  verifyUser: (otp: string) => Promise<any>;
+  forgotPassword: (email: string) => Promise<any>;
+  changePassword: (
+    token: string,
+    password: string,
+    confirmPassword: string,
+  ) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -143,7 +150,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const axiosError = error as AxiosError; // Cast error to AxiosError
       const errorMessage: ErrorResponse = axiosError.response
         ?.data as ErrorResponse;
-      console.error(axiosError);
       return {
         success: false,
         message: errorMessage.message || "An error occurred",
@@ -171,6 +177,48 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const verifyUser = async (otp: string) => {
+    try {
+      const response = await axios.patch(
+        `${getApiUrl()}/v1/auth/verifyEmail/${user?._id}`,
+        {
+          emailVerificationOTP: otp,
+        },
+      );
+      return response.data;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const forgotPassword = async (email: string) => {
+    try {
+      const response = await axios.post(
+        `${getApiUrl()}/v1/auth/forgotPassword`,
+        { email },
+      );
+      return response.data;
+    } catch (error: any) {
+      return error.response;
+    }
+  };
+
+  const changePassword = async (
+    token: string,
+    password: string,
+    confirmPassword: string,
+  ) => {
+    try {
+      const response = await axios.post(
+        `${getApiUrl()}/v1/auth/resetPassword/${token}`,
+        { password, confirmPassword },
+      );
+      return response.data;
+    } catch (error: any) {
+      return error.response;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -181,6 +229,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         validateSession,
         changePasswordApi,
         changeNotificationApi,
+        verifyUser,
+        forgotPassword,
+        changePassword,
       }}
     >
       {children}
