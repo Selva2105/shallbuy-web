@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/input-otp";
 import Unauthorized from "@/components/unAuth/UnAuthorized";
 import { toast } from "@/hooks/use-toast";
+import useAuth from "@/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -39,6 +40,7 @@ export default function Component() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { verifyUser } = useAuth();
 
   const userId = searchParams.get("id");
 
@@ -86,14 +88,9 @@ export default function Component() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      let result = await axios.patch(
-        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/v1/auth/verifyEmail/${userId}`,
-        {
-          emailVerificationOTP: data.pin,
-        },
-      );
+      let result = await verifyUser(data.pin);
 
-      if (result.data.status === "success") {
+      if (result.status === "success") {
         toast({
           title: "Congrats!",
           description: "Successfully Verified",

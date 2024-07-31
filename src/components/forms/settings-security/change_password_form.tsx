@@ -17,7 +17,7 @@ import { z } from "zod";
 import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
-import { ApiResponse } from "@/context";
+import { ApiResponse } from "@/context/AuthContext";
 import { CheckIcon } from "lucide-react";
 
 const FormSchema = z

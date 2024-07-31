@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import React from "react";
-import { AuthProvider } from "@/context";
+import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/toaster";
 import { LayoutProvider } from "./layoutProvider";
 import ReduxProvider from "@/redux/provider";
