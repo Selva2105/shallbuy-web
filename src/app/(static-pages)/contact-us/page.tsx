@@ -1,26 +1,28 @@
 "use client";
 
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Clock, LocateFixed, Phone } from "lucide-react";
-import React from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { useState } from "react";
+import { sendMessage } from "../static-service/staticService";
 
-const Page = () => {
-  // Define schema using Zod
+export default function ContactUs() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().min(1, "Email is required").email(),
@@ -39,181 +41,189 @@ const Page = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+    setIsLoading(true);
+    try {
+      // Simulate API call
+      let response = await sendMessage(values);
+      if (response.status === "success") {
+        toast({
+          title: "Message sent successfully!",
+          description: "We'll get back to you soon.",
+        });
+        form.reset({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to send message. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
-
   return (
-    <div className="flex flex-col items-center p-10 bg-white max-md:px-5">
-      <div className="flex flex-col items-center w-full max-w-[1058px] max-md:max-w-full">
-        <div className="text-4xl font-semibold text-black">
-          Get In Touch With Us
-        </div>
-        <div className="mt-7 text-base text-center text-neutral-400 w-[644px] max-md:max-w-full">
-          For More Information About Our Product & Services. Please Feel Free To
-          Drop Us An Email. Our Staff Always Be There To Help You Out. Do Not
-          Hesitate!
-        </div>
-        <div className="self-stretch mt-4 max-md:max-w-full">
-          <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-            <div className="flex flex-col w-[38%] max-md:w-full">
-              <div className="flex flex-col items-start px-12 pt-12 pb-12 mx-auto  w-full text-black bg-white max-md:px-5 max-md:mt-10 space-y-10">
-                <div className="flex gap-5 justify-between items-start">
-                  <LocateFixed className="w-8 h-8" />
-                  <div className="flex flex-col">
-                    <div className="text-ellipsis font-bold">Address</div>
-                    <div className="mt-2 text-sm">
-                      236 5th SE Avenue, New York NY10000, United States
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-5 justify-between items-start">
-                  <Phone className="w-6 h-6" />
-                  <div className="flex flex-col">
-                    <div className="text-ellipsis font-bold">Phone</div>
-                    <div className="mt-2 text-sm space-y-4">
-                      <span>Mobile: +(84) 546-6789</span>
-                      <span>Hotline: +(84) 456-6789</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-5 justify-between items-start">
-                  <Clock className="w-6 h-6" />
-                  <div className="flex flex-col">
-                    <div className="text-ellipsis font-bold">Working Time</div>
-                    <div className="mt-2 text-sm space-y-4">
-                      <span>Monday-Friday: 9:00 - 22:00</span>
-                      <span>Saturday-Sunday: 9:00 - 21:00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div className="flex flex-col min-h-dvh">
+      <section className="bg-gradient-to-r from-primary to-secondary py-20 md:py-32">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-8 md:grid-cols-2 md:items-center">
+            <div className="space-y-4">
+              <h1 className="text-4xl font-bold tracking-tighter text-primary-foreground sm:text-5xl md:text-6xl">
+                Get in Touch
+              </h1>
+              <p className="text-lg text-primary-foreground md:text-xl">
+                Have a question or want to work together? Fill out the form
+                below and we&apos;ll get back to you as soon as possible.
+              </p>
             </div>
-            <div className="flex flex-col ml-5 w-[62%] max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col grow p-12 w-full text-base text-black bg-white max-md:px-5 max-md:mt-8 max-md:max-w-full">
+            <Card className="bg-background p-6 shadow-lg">
+              <CardHeader>
+                <CardTitle>Contact Us</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8 w-full max-w-sm"
+                    className="grid gap-4"
                   >
-                    <div className="space-y-2 w-full">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel htmlFor="name" className="text-gray-900">
-                              Name
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter name"
-                                {...field}
-                                type="text"
-                              />
-                            </FormControl>
-                            <FormMessage className="text-xs" />
-                          </FormItem>
-                        )}
-                      />
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Name</FormLabel>
+                              <FormControl>
+                                <Input {...field} placeholder="Your name" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  type="email"
+                                  placeholder="Your email"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-2 w-full">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel
-                              htmlFor="email"
-                              className="text-gray-900"
-                            >
-                              Email
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter email address"
-                                {...field}
-                                type="email"
-                              />
-                            </FormControl>
-                            <FormMessage className="text-xs" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-2">
                       <FormField
                         control={form.control}
                         name="subject"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel
-                              htmlFor="subject"
-                              className="text-gray-900"
-                            >
-                              Subject
-                            </FormLabel>
+                            <FormLabel>Subject</FormLabel>
                             <FormControl>
-                              <Input
-                                placeholder="Enter your subject"
-                                {...field}
-                                type="text"
-                              />
+                              <Input {...field} placeholder="Subject" />
                             </FormControl>
-                            <FormMessage className="text-xs" />
+                            <FormMessage />
                           </FormItem>
                         )}
                       />
                     </div>
-                    <div className="space-y-2 w-full">
+                    <div className="space-y-2">
                       <FormField
                         control={form.control}
                         name="message"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel
-                              htmlFor="message"
-                              className="text-gray-900"
-                            >
-                              Message
-                            </FormLabel>
+                            <FormLabel>Message</FormLabel>
                             <FormControl>
                               <Textarea
-                                placeholder="Tell us a little bit about yourself"
-                                className="resize-none"
                                 {...field}
+                                placeholder="Your message"
+                                className="min-h-[120px]"
                               />
                             </FormControl>
-                            <FormMessage className="text-xs" />
-                            <FormDescription>
-                              Write your queries above we will get back to you
-                              within 24 hrs.
-                            </FormDescription>
+                            <FormMessage />
                           </FormItem>
                         )}
                       />
                     </div>
-
-                    <div className="space-y-4 w-full !mt-4">
-                      <Button className="w-full" type="submit">
-                        Submit
-                      </Button>
-                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <>
+                          <span className="loading loading-spinner loading-sm mr-2"></span>
+                          Sending...
+                        </>
+                      ) : (
+                        "Send Message"
+                      )}
+                    </Button>
                   </form>
                 </Form>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+      <section className="py-12 md:py-24 container">
+        <div className="px-4 md:px-6">
+          <div className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2 ">
+                <h2 className="text-2xl font-bold">
+                  Subscribe to our newsletter
+                </h2>
+                <p className="text-muted-foreground">
+                  Stay up to date with our latest news and updates.
+                </p>
               </div>
+              <form className="flex gap-2 w-3/4 flex-col">
+                <div className="flex flex-row gap-2">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="flex-1"
+                  />
+                  <Button type="submit">Subscribe</Button>
+                </div>
+                <span className="text-muted-foreground text-sm">
+                  We care about your data in our{" "}
+                  <Link
+                    className="underline underline-offset-1 font-semibold"
+                    href="/privacy-policy"
+                  >
+                    privacy policy
+                  </Link>
+                  .
+                </span>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
-};
-
-export default Page;
+}
