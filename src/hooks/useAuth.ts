@@ -15,19 +15,6 @@ const useAuth = () => {
         setIsLoading(false);
         return;
       }
-
-      try {
-        const isValidSession = await context.validateSession();
-        if (!isValidSession) {
-          console.error("Invalid session. Please log in again.");
-          // Add logic to handle invalid session, e.g., redirect to login
-        }
-        // Additional logic based on session validation
-      } catch (error) {
-        console.error("Session validation failed", error);
-      } finally {
-        setIsLoading(false);
-      }
     };
 
     checkUser();

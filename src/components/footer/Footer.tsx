@@ -97,11 +97,11 @@ const Footer: React.FC = () => {
           <FooterLink key={section.label} {...section} />
         ))}
       </div>
-      <div className="container mt-8 flex items-center justify-between">
+      <div className="container mt-8 flex flex-col md:flex-row items-center justify-between gap-y-4">
         <p className="text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} Shallbuy Store. All rights reserved.
         </p>
-        <div className="flex gap-4">
+        <div className="flex gap-4 justify-between w-full md:w-fit">
           <Link
             href="/privacy-policy"
             className="text-sm hover:underline"
