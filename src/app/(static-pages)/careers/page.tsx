@@ -30,6 +30,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { teamMembers } from "@/constants/data";
 
 interface JobCardProps {
   position: Job;
@@ -157,6 +159,47 @@ export default function Component() {
               <Button variant="outline" className="min-[400px]:inline-flex">
                 Learn More
               </Button>
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Meet Our Team
+                </h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Our team of dedicated professionals is the driving force
+                  behind ShallBuy`s success. Get to know the key members who
+                  make it all happen.
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+              {teamMembers.map((member) => (
+                <div
+                  key={member.name}
+                  className="flex flex-col items-center justify-center space-y-2"
+                >
+                  <Avatar className="w-24 h-24">
+                    <AvatarImage src={member.profile} />
+                    <AvatarFallback>
+                      {member.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="space-y-1 text-center">
+                    <h3 className="text-xl font-bold">{member.name}</h3>
+                    <p className="text-muted-foreground">{member.role}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {member.bio}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>

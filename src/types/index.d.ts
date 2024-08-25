@@ -53,7 +53,7 @@ export interface User {
   twoFactorEnabled: boolean;
 }
 export interface TeamMember {
-  profile: StaticImageData;
+  profile: string;
   name: string;
   role: string;
   bio: string;

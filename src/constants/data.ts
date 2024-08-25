@@ -1,8 +1,6 @@
 import { NavItem, TeamMember } from "@/types";
 import { ValuesList } from "@/types";
 import { User, Rocket, Fingerprint } from "lucide-react";
-import maleAvatar from "../../public/images/teams/man-avatar.webp";
-import femaleAvatar from "../../public/images/teams/female-avatar.webp";
 import users from "../../public/images/teams/teamsIcon.svg";
 import Flag from "../../public/images/teams/flag.svg";
 import Heart from "../../public/images/teams/heart.svg";
@@ -34,20 +32,20 @@ export const navItems: NavItem[] = [
 
 export const teamMembers: TeamMember[] = [
   {
-    profile: maleAvatar,
+    profile: "/images/teams/man-avatar.webp",
     name: "Selvaganapathi K",
     role: "Full stack developer",
-    bio: "Consistency is a key for success 🎉",
+    bio: "Selvaganapathi is our fullstack developer, responsible for building and maintaining the front-end and back-end of our platform.",
     github: "https://github.com/Selva2105",
     linkedin: "https://www.linkedin.com/in/selvaganapathi-kanakaraj/",
   },
   {
-    profile: femaleAvatar,
-    name: "Uthra Karunakaran",
-    role: "Frontend developer",
-    bio: "I'm a !worst programmer",
-    github: "https://github.com/code-par-learn",
-    linkedin: "https://www.linkedin.com/in/uthra-karuna/",
+    profile: "/images/teams/female-avatar.webp",
+    name: "Navya Sri Thalluri",
+    role: "Backend developer",
+    bio: "Navya is our backend developer, responsible for implementing the server-side logic and APIs that power our platform.",
+    github: "https://github.com/Navya1624",
+    linkedin: "https://www.linkedin.com/in/navya-sri-thalluri-4365a8256/",
   },
 ];
 
