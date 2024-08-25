@@ -71,16 +71,6 @@ export interface ValueItem {
 
 export type ValuesList = ValueItem[];
 
-export interface JobListing {
-  category: string;
-  positions: Array<{
-    title: string;
-    description: string;
-    type: string;
-    salaryRange: string;
-  }>;
-}
-
 export interface Section {
   icon: LucideIcon;
   title: string;

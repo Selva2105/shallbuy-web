@@ -1,15 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import {
   BriefcaseIcon,
   CakeIcon,
@@ -19,59 +9,140 @@ import {
   ShoppingCartIcon,
   SmileIcon,
 } from "lucide-react";
+import { getJobs } from "../static-service/staticService";
+import { useRouter } from "next/navigation";
+import { Job } from "@/types/static";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+interface JobCardProps {
+  position: Job;
+  // eslint-disable-next-line no-unused-vars
+  onApply: (id: string) => void;
+}
+
+const JobCard = ({ position, onApply }: JobCardProps) => (
+  <Card key={position.id}>
+    <CardHeader>
+      <CardTitle>{position.jobHeading}</CardTitle>
+      <CardDescription className="text-ellipsis line-clamp-2">
+        {position.description}
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="flex items-center gap-2">
+        <LocateIcon className="h-4 w-4 text-muted-foreground" />
+        <span className="text-sm text-muted-foreground">
+          {position.location}
+        </span>
+      </div>
+      <div className="flex items-center gap-2 mt-2">
+        <BriefcaseIcon className="h-4 w-4 text-muted-foreground" />
+        <span className="text-sm text-muted-foreground">
+          {position.jobType}
+        </span>
+      </div>
+    </CardContent>
+    <CardFooter>
+      <Button onClick={() => onApply(position.id)}>Apply Now</Button>
+    </CardFooter>
+  </Card>
+);
 
 export default function Component() {
   const [activeTab, setActiveTab] = useState("All");
-  const positions = [
-    {
-      id: 1,
-      title: "Senior Frontend Developer",
-      description:
-        "Lead the development of our cutting-edge e-commerce platform.",
-      location: "Remote",
-      type: "Full-time",
-      category: "Developer",
-    },
-    {
-      id: 2,
-      title: "Product Designer",
-      description: "Craft intuitive and visually stunning user experiences.",
-      location: "San Francisco, CA",
-      type: "Full-time",
-      category: "Designer",
-    },
-    {
-      id: 3,
-      title: "HR Generalist",
-      description: "Support our growing team with HR best practices.",
-      location: "Remote",
-      type: "Full-time",
-      category: "HR",
-    },
-  ];
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const positionsPerPage = 6;
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await getJobs();
+        if (response.status === "success") {
+          setJobs(response.data);
+        } else {
+          console.error("Failed to fetch jobs:", response.message);
+        }
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+    fetchJobs();
+  }, []);
+
   const categories = [
     "All",
-    "Designer",
+    "Design",
     "Developer",
-    "HR",
+    "Management",
+    "Customer_Success",
     "Marketing",
-    "Operations",
+    "Internship",
   ];
 
-  const filteredPositions = positions.filter(
-    (position) => activeTab === "All" || position.category === activeTab,
+  const filteredPositions = useMemo(
+    () =>
+      jobs.filter(
+        (position) => activeTab === "All" || position.jobGroup === activeTab,
+      ),
+    [jobs, activeTab],
   );
+
+  const totalPages = Math.ceil(filteredPositions.length / positionsPerPage);
+
+  const currentPositions = useMemo(() => {
+    const start = (currentPage - 1) * positionsPerPage;
+    return filteredPositions.slice(start, start + positionsPerPage);
+  }, [filteredPositions, currentPage]);
+
+  const handlePageChange = useCallback(
+    (jobId: string) => {
+      const jobExists = jobs.some((job) => job.id === jobId);
+      if (!jobExists) {
+        console.error("Job ID not found:", jobId);
+        return;
+      }
+      router.push(`/careers/apply/${jobId}`);
+    },
+    [jobs, router],
+  );
+
+  const handleTabChange = useCallback((newTab: string) => {
+    setActiveTab(newTab);
+    setCurrentPage(1);
+  }, []);
+
+  const handlePrevious = useCallback(() => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  }, []);
+
+  const handleNext = useCallback(() => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  }, [totalPages]);
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <section className="flex-1">
-        <section className="relative py-24 px-6 md:px-10 lg:px-16">
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/ikart-40b39.appspot.com/o/images%2Fstatic-images%2Fcareers-hero.svg?alt=media&token=eab4d710-1681-4a1c-afd3-c6a00326b7dc"
-            className="absolute top-0 -left-[30rem] aspect-[3/2] w-full h-full hidden lg:block"
-            alt="Careers Hero"
-          />
-          <div className="relative z-10 max-w-2xl mx-auto space-y-4 text-center">
+        <section className="py-24 px-6 md:px-10 lg:px-16">
+          <div className="z-10 max-w-2xl mx-auto space-y-4 text-center">
             <h1 className="text-4xl font-bold tracking-tight">
               Join the ShallBuy Team
             </h1>
@@ -95,7 +166,7 @@ export default function Component() {
             <div className="flex flex-col md:flex-row justify-between items-center my-8">
               <Tabs
                 defaultValue={activeTab}
-                onValueChange={setActiveTab}
+                onValueChange={handleTabChange}
                 className="w-full"
               >
                 <TabsList className="flex gap-2 overflow-x-auto h-full flex-wrap">
@@ -106,37 +177,48 @@ export default function Component() {
                   ))}
                 </TabsList>
                 <TabsContent value={activeTab} className="mt-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredPositions.map((position) => (
-                      <Card key={position.id}>
-                        <CardHeader>
-                          <CardTitle>{position.title}</CardTitle>
-                          <CardDescription className="text-ellipsis truncate line-clamp-1">
-                            {position.description}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="flex items-center gap-2">
-                            <LocateIcon className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm text-muted-foreground">
-                              {position.location}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <BriefcaseIcon className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm text-muted-foreground">
-                              {position.type}
-                            </span>
-                          </div>
-                        </CardContent>
-                        <CardFooter>
-                          <Button>Apply Now</Button>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
+                  {currentPositions.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {currentPositions.map((position) => (
+                        <JobCard
+                          key={position.id}
+                          position={position}
+                          onApply={handlePageChange}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center text-base text-muted-foreground">
+                      No jobs available currently.
+                    </div>
+                  )}
                 </TabsContent>
               </Tabs>
+            </div>
+            <div className="">
+              <Pagination className="justify-end">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      className="cursor-pointer"
+                      onClick={handlePrevious}
+                    />
+                  </PaginationItem>
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <PaginationItem key={i} className="cursor-ponter">
+                      <PaginationLink onClick={() => setCurrentPage(i + 1)}>
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      className="cursor-pointer"
+                      onClick={handleNext}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </div>
           </div>
         </section>
