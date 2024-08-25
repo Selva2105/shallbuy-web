@@ -6,7 +6,7 @@ import { Menu, Mountain, ShoppingCart } from "lucide-react";
 
 export default function NavbarUi() {
   return (
-    <header className="flex items-center justify-between bg-background px-4 py-3 shadow-sm sm:px-6 md:py-4">
+    <header className="flex items-center justify-between bg-background px-4 py-3 shadow-sm sm:px-6 md:py-4 fixed top-0 w-full bg-white">
       <Link href="#" className="flex items-center gap-2" prefetch={false}>
         <Mountain className="h-6 w-6" />
         <span className="sr-only">Acme Inc</span>

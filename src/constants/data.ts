@@ -1,4 +1,4 @@
-import { JobListing, NavItem, TeamMember } from "@/types";
+import { NavItem, TeamMember } from "@/types";
 import { ValuesList } from "@/types";
 import { User, Rocket, Fingerprint } from "lucide-react";
 import maleAvatar from "../../public/images/teams/man-avatar.webp";
@@ -87,65 +87,5 @@ export const valuesList: ValuesList = [
     title: "Sweat the small stuff",
     description:
       "We believe the best products come from the best attention to detail. Sweat the small stuff.",
-  },
-];
-
-export const jobListings: JobListing[] = [
-  {
-    category: "Design",
-    positions: [
-      {
-        title: "Product Designer",
-        description:
-          "We’re looking for a mid-level product designer to join our team.",
-        type: "Full-time",
-        salaryRange: "80k - 100k",
-      },
-      {
-        title: "UX Designer",
-        description:
-          "We’re looking for a mid-level UX designer to join our team.",
-        type: "Full-time",
-        salaryRange: "80k - 100k",
-      },
-    ],
-  },
-  {
-    category: "Software Development",
-    positions: [
-      {
-        title: "Fullstack Developer",
-        description:
-          "We’re looking for an experienced fullstack developer to join our team.",
-        type: "Full-time",
-        salaryRange: "90k - 120k",
-      },
-      {
-        title: "Frontend Developer",
-        description:
-          "We’re looking for an experienced frontend developer to join our team.",
-        type: "Full-time",
-        salaryRange: "90k - 120k",
-      },
-      {
-        title: "Backend Developer",
-        description:
-          "We’re looking for an experienced backend developer to join our team.",
-        type: "Full-time",
-        salaryRange: "100k - 130k",
-      },
-    ],
-  },
-  {
-    category: "Customer Success",
-    positions: [
-      {
-        title: "Customer Success Manager",
-        description:
-          "We’re looking for a skilled customer success manager to join our team.",
-        type: "Full-time",
-        salaryRange: "70k - 90k",
-      },
-    ],
   },
 ];
