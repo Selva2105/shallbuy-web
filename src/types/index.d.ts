@@ -88,3 +88,10 @@ export interface LegalPageProps {
   sections: Section[];
   additionalContent: AdditionalContent[];
 }
+
+export interface CategoryLinkProps {
+  href: string;
+  imgSrc: string;
+  altText: string;
+  categoryName: string;
+}

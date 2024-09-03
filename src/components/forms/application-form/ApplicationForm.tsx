@@ -193,9 +193,11 @@ function JobApplicationForm({
                             >
                               <Calendar
                                 mode="single"
+                                captionLayout="dropdown-buttons"
                                 selected={field.value}
                                 onSelect={field.onChange}
-                                initialFocus
+                                fromYear={1960}
+                                toYear={2030}
                               />
                             </PopoverContent>
                           </Popover>

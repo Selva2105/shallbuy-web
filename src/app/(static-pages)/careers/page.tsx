@@ -71,25 +71,32 @@ export default function Component() {
   const [activeTab, setActiveTab] = useState("All");
   const [jobs, setJobs] = useState<Job[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const positionsPerPage = 6;
   const router = useRouter();
 
   useEffect(() => {
     const fetchJobs = async () => {
+      setLoading(true);
+      setError("");
       try {
         const response = await getJobs();
         if (response.status === "success") {
           setJobs(response.data);
         } else {
           console.error("Failed to fetch jobs:", response.message);
+          setError("Some error occurred. Please try again later :(");
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);
+        setError("Some error occurred. Please try again later :(");
       }
+      setLoading(false);
     };
     fetchJobs();
   }, []);
-
   const categories = [
     "All",
     "Design",
@@ -220,7 +227,15 @@ export default function Component() {
                   ))}
                 </TabsList>
                 <TabsContent value={activeTab} className="mt-4">
-                  {currentPositions.length > 0 ? (
+                  {loading ? (
+                    <div className="text-center text-base text-muted-foreground">
+                      Loading jobs...
+                    </div>
+                  ) : error ? (
+                    <div className="text-center text-base text-muted-foreground">
+                      {error}
+                    </div>
+                  ) : currentPositions.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                       {currentPositions.map((position) => (
                         <JobCard

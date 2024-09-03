@@ -1,7 +1,8 @@
+import PageHome from "@/components/layout/Home";
 import React from "react";
 
 const Home = () => {
-  return <div></div>;
+  return <PageHome />;
 };
 
 export default Home;
