@@ -71,6 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
+    console.log("Api url", getApiUrl());
     try {
       const response = await axios.post(`${getApiUrl()}/v1/auth/login`, {
         email,
