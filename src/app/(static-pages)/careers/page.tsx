@@ -30,6 +30,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { teamMembers } from "@/constants/data";
 
 interface JobCardProps {
   position: Job;
@@ -69,25 +71,32 @@ export default function Component() {
   const [activeTab, setActiveTab] = useState("All");
   const [jobs, setJobs] = useState<Job[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const positionsPerPage = 6;
   const router = useRouter();
 
   useEffect(() => {
     const fetchJobs = async () => {
+      setLoading(true);
+      setError("");
       try {
         const response = await getJobs();
         if (response.status === "success") {
           setJobs(response.data);
         } else {
           console.error("Failed to fetch jobs:", response.message);
+          setError("Some error occurred. Please try again later :(");
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);
+        setError("Some error occurred. Please try again later :(");
       }
+      setLoading(false);
     };
     fetchJobs();
   }, []);
-
   const categories = [
     "All",
     "Design",
@@ -160,6 +169,47 @@ export default function Component() {
             </div>
           </div>
         </section>
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Meet Our Team
+                </h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Our team of dedicated professionals is the driving force
+                  behind ShallBuy`s success. Get to know the key members who
+                  make it all happen.
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+              {teamMembers.map((member) => (
+                <div
+                  key={member.name}
+                  className="flex flex-col items-center justify-center space-y-2"
+                >
+                  <Avatar className="w-24 h-24">
+                    <AvatarImage src={member.profile} />
+                    <AvatarFallback>
+                      {member.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="space-y-1 text-center">
+                    <h3 className="text-xl font-bold">{member.name}</h3>
+                    <p className="text-muted-foreground">{member.role}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {member.bio}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
         <section className="py-12 px-6 md:px-10 lg:px-16 bg-muted">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl font-bold text-center">Open Positions</h2>
@@ -177,7 +227,15 @@ export default function Component() {
                   ))}
                 </TabsList>
                 <TabsContent value={activeTab} className="mt-4">
-                  {currentPositions.length > 0 ? (
+                  {loading ? (
+                    <div className="text-center text-base text-muted-foreground">
+                      Loading jobs...
+                    </div>
+                  ) : error ? (
+                    <div className="text-center text-base text-muted-foreground">
+                      {error}
+                    </div>
+                  ) : currentPositions.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                       {currentPositions.map((position) => (
                         <JobCard

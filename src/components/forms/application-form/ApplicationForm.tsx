@@ -1,3 +1,4 @@
+"use client";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
@@ -28,7 +29,14 @@ import { Job } from "@/types/static";
 import { UseFormReturn } from "react-hook-form";
 import { ApplyForm } from "@/app/(static-pages)/careers/apply/[slug]/page";
 import { jobSkills } from "@/app/(static-pages)/careers/data";
-import { BriefcaseIcon, CalendarIcon, LocateIcon } from "lucide-react";
+import {
+  BriefcaseIcon,
+  CalendarIcon,
+  LocateIcon,
+  ChevronLeft,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 
 interface JobApplicationFormProps {
   job: Job;
@@ -45,23 +53,29 @@ function JobApplicationForm({
   isLoading,
 }: JobApplicationFormProps) {
   const skillsOptions = jobSkills[job.jobGroup as keyof typeof jobSkills] || [];
-
+  const router = useRouter();
   return (
     <div className="bg-background text-foreground">
       <div className="container mx-auto py-12 md:py-16 lg:py-20">
+        <ChevronLeft className="cursor-pointer" onClick={() => router.back()} />
         <div className="max-w-4xl mx-auto">
           <div className="space-y-6">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-              {job.jobHeading}
-            </h1>
+            <div className="flex flex-col items-start gap-4">
+              <Badge variant="default">{job.jobGroup}</Badge>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+                {job.jobHeading}
+              </h1>
+            </div>
             <div className="space-y-4">
-              <p className="text-lg text-muted-foreground">{job.description}</p>
+              <p className="text-base text-muted-foreground">
+                {job.description}
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <h2 className="text-xl md:text-2xl font-bold">
                     Key Responsibilities:
                   </h2>
-                  <ul className="space-y-1 list-disc pl-5">
+                  <ul className="space-y-2 pl-5 text-md list-outside list-decimal">
                     {job.requiredQualifications.map((item, index) => (
                       <li key={index}>{item}</li>
                     ))}
@@ -71,7 +85,7 @@ function JobApplicationForm({
                   <h2 className="text-xl md:text-2xl font-bold">
                     Required Qualifications:
                   </h2>
-                  <ul className="space-y-1 list-disc pl-5">
+                  <ul className="space-y-2 pl-5 text-md list-outside list-decimal">
                     {job.requiredQualifications.map((qual, index) => (
                       <li key={index}>{qual}</li>
                     ))}
@@ -81,7 +95,7 @@ function JobApplicationForm({
             </div>
             <div className="space-y-4">
               <h2 className="text-xl md:text-2xl font-bold">Job Highlights:</h2>
-              <ul className="space-y-2 list-disc pl-5">
+              <ul className="space-y-2 pl-5 list-decimal text-md">
                 <li>Competitive salary and benefits package</li>
                 <li>Flexible work arrangements, including remote options</li>
                 <li>Opportunities for professional development and growth</li>
@@ -179,9 +193,11 @@ function JobApplicationForm({
                             >
                               <Calendar
                                 mode="single"
+                                captionLayout="dropdown-buttons"
                                 selected={field.value}
                                 onSelect={field.onChange}
-                                initialFocus
+                                fromYear={1960}
+                                toYear={2030}
                               />
                             </PopoverContent>
                           </Popover>
@@ -472,9 +488,9 @@ function JobApplicationForm({
                       )}
                     />
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-start !mt-6">
                     <Button type="submit" disabled={isLoading}>
-                      Submit Application
+                      {isLoading ? "Submitting..." : "Submit Application"}
                     </Button>
                   </div>
                 </form>

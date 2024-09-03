@@ -17,8 +17,14 @@ const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().min(1, "Email is required").email(),
   dateOfBirth: z.date(),
-  contact: z.string().min(1, { message: "Contact is required" }),
-  yearOfGraduation: z.string().min(1, "Year Of Graduation is required"),
+  contact: z
+    .string()
+    .min(10, { message: "Enter a valid Phone number" })
+    .max(10, { message: "Enter a valid Phone number" }),
+  yearOfGraduation: z
+    .string()
+    .min(4, "Year Of Graduation is required")
+    .max(4, "Year Of Graduation is required"),
   gender: z.enum(["MALE", "FEMALE", "OTHER"]),
   currentCTC: z.enum([
     "BELOW_5L",
@@ -33,7 +39,10 @@ const formSchema = z.object({
     "ABOVE_20L",
   ]),
   experienceLevel: z.enum(["ENTRY", "JUNIOR", "MID", "SENIOR", "EXPERT"]),
-  noticePeriod: z.string().min(1, { message: "Notice Period is required" }),
+  noticePeriod: z
+    .string()
+    .min(1, { message: "Notice Period is required" })
+    .regex(/^\d+$/, "Notice Period must be numeric"),
   currentLocation: z
     .string()
     .min(1, { message: "Current Location is required" }),
@@ -99,7 +108,11 @@ export default function Component({ params }: { params: { slug: string } }) {
   });
 
   if (!job) {
-    return <div>Loading job details...</div>;
+    return (
+      <div className="h-screen grid place-content-center text-muted-foreground text-lg font-semibold">
+        Loading job details...
+      </div>
+    );
   }
 
   const onSubmit = async (values: ApplyForm) => {

@@ -22,7 +22,7 @@ export const sendMessage = async ({
 
 export const getJobs = async () => {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/v1/careers`,
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/careers`,
   );
 
   return response.data;
@@ -30,7 +30,7 @@ export const getJobs = async () => {
 
 export const getJobsByID = async (id: string) => {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/v1/careers/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/careers/${id}`,
   );
 
   return response.data;
@@ -51,7 +51,7 @@ export const applyJob = async (data: ApplyForm) => {
   });
 
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/v1/applications`,
+    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/applications`,
     formData,
     {
       headers: {

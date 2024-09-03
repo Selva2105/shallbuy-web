@@ -53,7 +53,7 @@ export interface User {
   twoFactorEnabled: boolean;
 }
 export interface TeamMember {
-  profile: StaticImageData;
+  profile: string;
   name: string;
   role: string;
   bio: string;
@@ -87,4 +87,11 @@ export interface LegalPageProps {
   subtitle: string;
   sections: Section[];
   additionalContent: AdditionalContent[];
+}
+
+export interface CategoryLinkProps {
+  href: string;
+  imgSrc: string;
+  altText: string;
+  categoryName: string;
 }

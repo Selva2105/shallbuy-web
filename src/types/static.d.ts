@@ -12,3 +12,11 @@ export interface Job {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface homeReviews {
+  userProfile?: string;
+  userAltText: string;
+  userName: string;
+  rating: number;
+  reviewMsg: string;
+}

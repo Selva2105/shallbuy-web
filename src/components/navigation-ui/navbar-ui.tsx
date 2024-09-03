@@ -3,10 +3,11 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import NavbarUserBtn from "./navbar-user-btn";
 import { Menu, Mountain, ShoppingCart } from "lucide-react";
+import { ModeToggle } from "../ui/mode-toggle";
 
 export default function NavbarUi() {
   return (
-    <header className="flex items-center justify-between bg-background px-4 py-3 shadow-sm sm:px-6 md:py-4 fixed top-0 w-full bg-white">
+    <header className="z-20 flex items-center justify-between px-4 py-3 shadow-sm sm:px-6 md:py-4 sticky top-0 w-full bg-muted ">
       <Link href="#" className="flex items-center gap-2" prefetch={false}>
         <Mountain className="h-6 w-6" />
         <span className="sr-only">Acme Inc</span>
@@ -50,6 +51,7 @@ export default function NavbarUi() {
           </span>
           <span className="sr-only">Cart</span>
         </Link>
+        <ModeToggle />
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="sm:hidden">
