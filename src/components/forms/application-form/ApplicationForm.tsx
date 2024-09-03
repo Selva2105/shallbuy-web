@@ -198,6 +198,7 @@ function JobApplicationForm({
                                 onSelect={field.onChange}
                                 fromYear={1960}
                                 toYear={2030}
+                                initialFocus
                               />
                             </PopoverContent>
                           </Popover>

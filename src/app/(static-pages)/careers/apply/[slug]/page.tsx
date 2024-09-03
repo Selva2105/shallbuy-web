@@ -16,7 +16,15 @@ import JobApplicationForm from "@/components/forms/application-form/ApplicationF
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().min(1, "Email is required").email(),
-  dateOfBirth: z.date(),
+  dateOfBirth: z.date().refine((date) => {
+    const today = new Date();
+    const eighteenYearsAgo = new Date(
+      today.getFullYear() - 18,
+      today.getMonth(),
+      today.getDate(),
+    );
+    return date <= eighteenYearsAgo;
+  }, "You must be at least 18 years old"),
   contact: z
     .string()
     .min(10, { message: "Enter a valid Phone number" })
