@@ -2,7 +2,6 @@
 "use client";
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import axios, { AxiosError } from "axios";
-import { getApiUrl } from "@/lib/getApiurl";
 import { ProfileFormValues } from "@/lib/form-schema";
 import { User } from "@/types";
 import { ChangePasswordFormValues } from "@/components/forms/settings-security/change_password_form";
@@ -71,12 +70,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    console.log("Api url", getApiUrl());
     try {
-      const response = await axios.post(`${getApiUrl()}/v1/auth/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/login`,
+        {
+          email,
+          password,
+        },
+      );
       const { token, user } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
@@ -91,7 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signup = async (profileData: ProfileFormValues) => {
     try {
       const response = await axios.post(
-        `${getApiUrl()}/v1/auth/user`,
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/user`,
         profileData,
       );
       const { token, user } = response.data;
@@ -107,7 +108,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      const response = await axios.post(`${getApiUrl()}/v1/auth/logout`);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/logout`,
+      );
       if (response.data.status === "success") {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -143,7 +146,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       let response = await axios.put(
-        `${getApiUrl()}/v1/auth/user/updatePassword/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/user/updatePassword/${id}`,
         data,
       );
       if (response.data.status === "success") return { success: true };
@@ -164,7 +167,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       let response = await axios.put(
-        `${getApiUrl()}/v1/auth/user/updateNotification/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/user/updateNotification/${id}`,
         data,
       );
       if (response.data.status === "success") {
@@ -181,7 +184,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const verifyUser = async (otp: string) => {
     try {
       const response = await axios.patch(
-        `${getApiUrl()}/v1/auth/verifyEmail/${user?._id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/verifyEmail/${user?._id}`,
         {
           emailVerificationOTP: otp,
         },
@@ -195,7 +198,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const forgotPassword = async (email: string) => {
     try {
       const response = await axios.post(
-        `${getApiUrl()}/v1/auth/forgotPassword`,
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/forgotPassword`,
         { email },
       );
       return response.data;
@@ -211,7 +214,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       const response = await axios.post(
-        `${getApiUrl()}/v1/auth/resetPassword/${token}`,
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/resetPassword/${token}`,
         { password, confirmPassword },
       );
       return response.data;
