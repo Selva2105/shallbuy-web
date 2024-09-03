@@ -1,4 +1,3 @@
-import { getApiUrl } from "@/lib/getApiurl";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -36,7 +35,7 @@ export const updateUserProfile = createAsyncThunk<
 >("userProfile/update", async ({ id, userData }, { rejectWithValue }) => {
   try {
     const response = await axios.patch(
-      `${getApiUrl()}/v1/auth/user/${id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_API_URL}/v1/auth/user/${id}`,
       userData,
       {
         headers: {
