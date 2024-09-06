@@ -179,14 +179,25 @@ const Index = () => {
                     Login with Google
                   </Button>
                 </div>
-                <div className="space-y-4 text-center text-sm ">
-                  Don’t have an account?
-                  <Link
-                    className="underline underline-offset-1 hover:no-underline hover:text-gray-500 mx-2"
-                    href="/signup"
-                  >
-                    Sign up
-                  </Link>
+                <div className="space-y-3 text-center text-sm flex flex-col items-center">
+                  <span>
+                    Don’t have an account?
+                    <Link
+                      className="underline underline-offset-1 hover:no-underline hover:text-gray-500 mx-2"
+                      href="/signup"
+                    >
+                      Sign up
+                    </Link>
+                  </span>
+                  <span>
+                    Want to become our
+                    <Link
+                      className="underline underline-offset-1 hover:no-underline hover:text-gray-500 mx-2"
+                      href="/seller-onboard"
+                    >
+                      seller partner ?
+                    </Link>
+                  </span>
                 </div>
               </div>
             </form>

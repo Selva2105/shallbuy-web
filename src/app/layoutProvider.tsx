@@ -9,16 +9,13 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const pathname = usePathname();
+  const ignore = ["/login", "/signup", "/seller-onboard"];
   return (
     <>
-      {!(pathname.includes("/login") || pathname.includes("/signup")) && (
-        <NavbarUi />
-      )}
+      {!ignore.some((path) => pathname.includes(path)) && <NavbarUi />}
 
       {children}
-      {!(pathname.includes("/login") || pathname.includes("/signup")) && (
-        <Footer />
-      )}
+      {!ignore.some((path) => pathname.includes(path)) && <Footer />}
     </>
   );
 };

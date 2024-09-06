@@ -21,6 +21,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => Promise<boolean>;
   signup: (profileData: ProfileFormValues) => Promise<boolean>;
+  sellerSignup: (sellerdate: FormData) => Promise<boolean>;
   changePasswordApi: (
     id: string | undefined,
     data: ChangePasswordFormValues,
@@ -100,6 +101,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
       return true;
+    } catch (error) {
+      console.error("Signup failed:", error);
+      throw error;
+    }
+  };
+
+  const sellerSignup = async (sellerData: FormData) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/v1/seller/onboard`,
+        sellerData,
+      );
+      const { seller } = response.data;
+      return seller ? true : false;
     } catch (error) {
       console.error("Signup failed:", error);
       throw error;
@@ -236,6 +251,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         verifyUser,
         forgotPassword,
         changePassword,
+        sellerSignup,
       }}
     >
       {children}
