@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userProfileReducer from "./features/userProfileSlice";
 import productReducer from "./features/productSlice";
+import sellerReducer from "./features/sellerSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       userProfile: userProfileReducer,
       products: productReducer,
+      seller: sellerReducer,
     },
   });
 };

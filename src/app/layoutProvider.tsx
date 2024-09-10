@@ -10,12 +10,15 @@ export const LayoutProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const pathname = usePathname();
   const ignore = ["/login", "/signup", "/seller-onboard"];
+  const shouldIgnore =
+    ignore.some((path) => pathname.includes(path)) ||
+    pathname.startsWith("/seller");
+
   return (
     <>
-      {!ignore.some((path) => pathname.includes(path)) && <NavbarUi />}
-
+      {!shouldIgnore && <NavbarUi />}
       {children}
-      {!ignore.some((path) => pathname.includes(path)) && <Footer />}
+      {!shouldIgnore && <Footer />}
     </>
   );
 };

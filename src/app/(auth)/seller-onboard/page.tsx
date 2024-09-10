@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -41,6 +42,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
 
 const useStep = (steps: number, initialStep = 0) => {
   const [currentStep, setCurrentStep] = useState(initialStep);
@@ -728,6 +730,19 @@ export default function SellerOnboarding() {
             </div>
           </Form>
         </CardContent>
+        <CardFooter className="w-full text-center">
+          <div className="text-sm text-gray-600">
+            <p className="mt-2">
+              Already a seller?{" "}
+              <Link
+                href="/seller-login"
+                className="text-gray-800 hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );

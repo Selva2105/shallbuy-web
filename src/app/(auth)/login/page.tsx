@@ -28,6 +28,7 @@ import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/hooks/use-toast";
+import { Lock, Mail } from "lucide-react";
 
 const Index = () => {
   const { login, user } = useAuth();
@@ -113,11 +114,16 @@ const Index = () => {
                         Email
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter email address"
-                          {...field}
-                          type="email"
-                        />
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="email"
+                            placeholder="Enter your email"
+                            type="email"
+                            {...field}
+                            className="pl-10"
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
@@ -144,12 +150,16 @@ const Index = () => {
                         </div>
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter password"
-                          id="password"
-                          {...field}
-                          type="password"
-                        />
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            id="password"
+                            placeholder="Enter your password"
+                            type="password"
+                            {...field}
+                            className="pl-10"
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
@@ -167,7 +177,10 @@ const Index = () => {
                         Logging in...
                       </>
                     ) : (
-                      "Login"
+                      <>
+                        <Lock className="w-4 h-4 mr-2" />
+                        Log in
+                      </>
                     )}
                   </Button>
                   <div className="flex items-center my-4">
@@ -175,29 +188,26 @@ const Index = () => {
                     <span className="mx-3 text-sm text-gray-500">or</span>
                     <Separator className="my-3 !w-[45%]" />
                   </div>
-                  <Button className="w-full" variant="outline">
-                    Login with Google
-                  </Button>
                 </div>
-                <div className="space-y-3 text-center text-sm flex flex-col items-center">
-                  <span>
-                    Don’t have an account?
+                <div className="mt-6 text-center text-sm text-gray-600">
+                  <p>
+                    Don&apos;t have an account?{" "}
                     <Link
-                      className="underline underline-offset-1 hover:no-underline hover:text-gray-500 mx-2"
                       href="/signup"
+                      className="text-gray-800 hover:underline"
                     >
                       Sign up
                     </Link>
-                  </span>
-                  <span>
-                    Want to become our
+                  </p>
+                  <p className="mt-2">
+                    Are you a seller?{" "}
                     <Link
-                      className="underline underline-offset-1 hover:no-underline hover:text-gray-500 mx-2"
-                      href="/seller-onboard"
+                      href="/seller-login"
+                      className="text-gray-800 hover:underline"
                     >
-                      seller partner ?
+                      Login
                     </Link>
-                  </span>
+                  </p>
                 </div>
               </div>
             </form>
